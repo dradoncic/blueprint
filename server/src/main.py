@@ -21,13 +21,7 @@ from .utils.encryption import encrypt, decrypt
 
 load_dotenv(override=True)
 
-HOST = os.getenv("PG_HOST")
-DATABASE = os.getenv("PG_DATABASE")
-USER = os.getenv("PG_USER")
-PASSWORD = os.getenv("PG_PASSWORD")
-PORT = os.getenv("PG_PORT")
-
-POSTGRES_DSN = f"postgresql://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}"
+POSTGRES_DSN = os.getenv("POSTGRES_DSN")
 
 logger = logger_factory.setup_logger("server", postgres_dsn=POSTGRES_DSN)
 
