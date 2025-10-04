@@ -8,6 +8,7 @@ from typing import List
 import asyncpg  # type: ignore
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request, Response, Query, HTTPException, status
+from fastapi.middleware.cors import CORSMiddleware
 from .utils.model import (
     EncryptRequest,
     EncryptResponse,
@@ -27,6 +28,13 @@ logger = logger_factory.setup_logger("server", postgres_dsn=POSTGRES_DSN)
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.middleware("http")
 async def log_requests(request: Request, call_next) -> Response:
