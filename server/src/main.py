@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime
 from typing import List
 
-import asyncpg
+import asyncpg # type: ignore
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request, Response, Query, HTTPException, status
 from .utils.model import (
@@ -39,7 +39,7 @@ async def log_requests(request: Request, call_next) -> Response:
     Wraps all HTTP requests, logs request as structure data, continues processing.
     """
     request_id = str(uuid.uuid4())
-    ip = request.client.host
+    ip = request.client.host if request.client else "unknown"
     timestamp = datetime.utcnow()
 
     logger.info(
