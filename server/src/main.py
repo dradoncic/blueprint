@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime
 from typing import List
 
-import asyncpg # type: ignore
+import asyncpg  # type: ignore
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request, Response, Query, HTTPException, status
 from .utils.model import (

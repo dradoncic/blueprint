@@ -32,7 +32,7 @@ async def decrypt(key: str, data: str) -> str:
     private_key = serialization.load_pem_private_key(key.encode("utf-8"), password=None)
     if not isinstance(private_key, RSAPrivateKey):
         raise ValueError("Key is not an RSA private key.")
-    
+
     decrypted = private_key.decrypt(
         bytes.fromhex(data),
         padding.OAEP(

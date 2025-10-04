@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import Optional
 import asyncio
 
-import asyncpg # type: ignore
+import asyncpg  # type: ignore
 from attrs import define, field
 
 
@@ -18,7 +18,7 @@ class AsyncPostgresHandler(logging.Handler):
     dsn: str
     task: Optional[asyncio.Task] = field(default=None)
     table: Optional[str] = field(default="logs")
-    loop: Optional[asyncio.EventLoop] = field(default=asyncio.get_event_loop()) # type: ignore
+    loop: Optional[asyncio.EventLoop] = field(default=asyncio.get_event_loop())  # type: ignore
     queue: Optional[asyncio.Queue] = field(default=asyncio.Queue())
 
     def __attrs_post_init__(self):
@@ -49,7 +49,7 @@ class AsyncPostgresHandler(logging.Handler):
 
         try:
             while True:
-                record = await self.queue.get() # type: ignore
+                record = await self.queue.get()  # type: ignore
                 if record is None:
                     break
 
@@ -74,13 +74,13 @@ class AsyncPostgresHandler(logging.Handler):
         Called by the logging framework (sync).
         """
         try:
-            self.queue.put_nowait(record) # type: ignore
+            self.queue.put_nowait(record)  # type: ignore
         except Exception as _:  # pylint: disable=W0718
             self.handleError(record)
 
     async def shutdown(self):
         """Gracefully stop the worker and flush logs."""
-        await self.queue.put(None) # type: ignore
+        await self.queue.put(None)  # type: ignore
         await self.task
 
 
