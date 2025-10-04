@@ -46,3 +46,7 @@ class LogItem(BaseModel):
     timestamp: int
     ip: str
     data: str
+
+
+class Health(BaseModel):
+    status: str

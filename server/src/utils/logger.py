@@ -25,6 +25,9 @@ class AsyncPostgresHandler(logging.Handler):
         super().__init__()
         self.task = self.loop.create_task(self._log_worker())
 
+    def __hash__(self):
+        return hash(id(self))
+
     async def _ensure_table(self, conn: asyncpg.connection) -> None:
         """
         Ensures the table exists within the database.

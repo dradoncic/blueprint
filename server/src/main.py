@@ -14,6 +14,7 @@ from .utils.model import (
     DecryptRequest,
     DecryptResponse,
     LogItem,
+    Health,
 )
 from .utils.logger import logger_factory, AsyncPostgresHandler
 from .utils.encryption import encrypt, decrypt
@@ -66,6 +67,19 @@ async def shutdown_event() -> None:
             await handler.shutdown()
 
 
+@app.get(
+    "/health",
+    tags=["health"],
+    summary="Health check endpoint.",
+    response_description="Returns HTTP Status Code 200 (OK).",
+    status_code=status.HTTP_200_OK,
+    response_model=Health,
+)
+def health_check():
+    """Health check for application"""
+    return Health(status="OK")
+
+
 @app.post(
     "/api/v1/encrypt",
     tags=["encrypt"],
@@ -105,7 +119,7 @@ async def decrypt_endpoint(req: DecryptRequest):
 
 
 @app.get(
-    "api/v1/logs",
+    "/api/v1/logs",
     tags=["logs"],
     summary="Fetch log records",
     response_description="Returns list log records",
