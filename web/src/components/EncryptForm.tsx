@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./EncryptForm.css";
 
 export default function EncryptForm() {
     const [key, setKey] = useState("");
@@ -28,30 +29,30 @@ export default function EncryptForm() {
     };
 
     return (
-        <div className="bg-white p-4 rounded-lg shadow-md flex flex-col gap-3">
-            <h2 className="text-lg font-semibold">Encrypt Data</h2>
+        <div className="encrypt-form">
+            <h2 className="form-title">Encrypt Data</h2>
             <input
-                className="border rounded p-2 w-full"
+                className="form-input"
                 placeholder="Key"
                 value={key}
                 onChange={(e) => setKey(e.target.value)}
             />
             <textarea
-                className="border rounded p-2 w-full resize-none h-24"
+                className="form-textarea"
                 placeholder="Data"
                 value={data}
                 onChange={(e) => setData(e.target.value)}
             />
             <button
                 onClick={handleEncrypt}
-                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:bg-gray-400"
+                className="encrypt-button"
                 disabled={loading}
             >
                 {loading ? "Encrypting..." : "Encrypt"}
             </button>
-            {error && <div className="text-red-600">{error}</div>}
+            {error && <div className="error-message">{error}</div>}
             {result && (
-                <div className="bg-gray-100 p-2 rounded break-words">
+                <div className="result-box">
                     {result}
                 </div>
             )}

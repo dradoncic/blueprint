@@ -1,5 +1,5 @@
-
 import { useState } from "react";
+import "./DecryptForm.css";
 
 export default function DecryptForm() {
     const [key, setKey] = useState("");
@@ -29,30 +29,30 @@ export default function DecryptForm() {
     };
 
     return (
-        <div className="bg-white p-4 rounded-lg shadow-md flex flex-col gap-3">
-            <h2 className="text-lg font-semibold">Decrypt Data</h2>
+        <div className="decrypt-form">
+            <h2 className="form-title">Decrypt Data</h2>
             <input
-                className="border rounded p-2 w-full"
+                className="form-input"
                 placeholder="Key"
                 value={key}
                 onChange={(e) => setKey(e.target.value)}
             />
             <textarea
-                className="border rounded p-2 w-full resize-none h-24"
+                className="form-textarea"
                 placeholder="Encrypted Data"
                 value={data}
                 onChange={(e) => setData(e.target.value)}
             />
             <button
                 onClick={handleDecrypt}
-                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:bg-gray-400"
+                className="decrypt-button"
                 disabled={loading}
             >
                 {loading ? "Decrypting..." : "Decrypt"}
             </button>
-            {error && <div className="text-red-600">{error}</div>}
+            {error && <div className="error-message">{error}</div>}
             {result && (
-                <div className="bg-gray-100 p-2 rounded break-words">
+                <div className="result-box">
                     {result}
                 </div>
             )}
