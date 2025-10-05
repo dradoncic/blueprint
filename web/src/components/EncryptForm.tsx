@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./EncryptForm.css";
 
 export default function EncryptForm() {
     const [key, setKey] = useState("");
@@ -29,33 +28,45 @@ export default function EncryptForm() {
     };
 
     return (
-        <div className="encrypt-form">
-            <h2 className="form-title">Encrypt Data</h2>
-            <input
-                className="form-input"
-                placeholder="Key"
-                value={key}
-                onChange={(e) => setKey(e.target.value)}
-            />
-            <textarea
-                className="form-textarea"
-                placeholder="Data"
-                value={data}
-                onChange={(e) => setData(e.target.value)}
-            />
-            <button
-                onClick={handleEncrypt}
-                className="encrypt-button"
-                disabled={loading}
-            >
-                {loading ? "Encrypting..." : "Encrypt"}
-            </button>
-            {error && <div className="error-message">{error}</div>}
-            {result && (
-                <div className="result-box">
-                    {result}
-                </div>
-            )}
+        <div className="bg-card rounded-lg shadow-md p-6 border border-border">
+            <h2 className="text-xl font-semibold text-foreground mb-6">Encrypt Data</h2>
+            
+            <div className="space-y-4">
+                <input
+                    className="w-full px-4 py-2.5 bg-background border border-input rounded-md text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                    placeholder="Encryption Key"
+                    value={key}
+                    onChange={(e) => setKey(e.target.value)}
+                />
+                
+                <textarea
+                    className="w-full px-4 py-2.5 bg-background border border-input rounded-md text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent min-h-[120px] resize-y"
+                    placeholder="Data to encrypt"
+                    value={data}
+                    onChange={(e) => setData(e.target.value)}
+                />
+                
+                <button
+                    onClick={handleEncrypt}
+                    className="w-full px-4 py-2.5 bg-primary text-primary-foreground rounded-md font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                    disabled={loading}
+                >
+                    {loading ? "Encrypting..." : "Encrypt"}
+                </button>
+                
+                {error && (
+                    <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-md text-destructive text-sm">
+                        {error}
+                    </div>
+                )}
+                
+                {result && (
+                    <div className="p-4 bg-muted border border-border rounded-md">
+                        <p className="text-xs font-medium text-muted-foreground mb-2">Encrypted Result:</p>
+                        <p className="text-sm text-foreground font-mono break-all">{result}</p>
+                    </div>
+                )}
+            </div>
         </div>
     );
 }

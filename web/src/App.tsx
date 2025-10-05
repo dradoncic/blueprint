@@ -1,24 +1,27 @@
-import EncryptForm from "./components/EncryptForm.tsx";
-import DecryptForm from "./components/DecryptForm.tsx";
-import LogTable from "./components/LogTable.tsx";
-import "./App.css";
+import { Toaster } from "@/components/ui/sonner"
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Index from "./pages/Index.tsx";
+import NotFound from "./pages/NotFound.tsx";
 
-export default function App() {
-  return (
-    <div className="app-container">
-      <h1 className="app-title">
-        Encryption Service
-      </h1>
+const queryClient = new QueryClient();
 
-      <div className="forms-grid">
-        <EncryptForm />
-        <DecryptForm />
-      </div>
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </TooltipProvider>
+  </QueryClientProvider>
+);
 
-      <div className="logs-section">
-        <h2 className="logs-title">Request Logs</h2>
-        <LogTable />
-      </div>
-    </div>
-  );
-}
+export default App;

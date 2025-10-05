@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import "./LogTable.css";
 
 interface LogItem {
     id: string;
@@ -38,69 +37,101 @@ export default function LogTable() {
     }, [size, offset]);
 
     return (
-        <div className="log-table-container">
-            <div className="controls-section">
-                <label className="control-label">
-                    Size:{" "}
+        <div className="bg-card rounded-lg shadow-md border border-border overflow-hidden">
+            {/* Controls Section */}
+            <div className="p-4 bg-muted/50 border-b border-border flex flex-wrap gap-4 items-center">
+                <label className="flex items-center gap-2 text-sm">
+                    <span className="text-foreground font-medium">Size:</span>
                     <input
                         type="number"
                         value={size}
                         onChange={(e) => setSize(Number(e.target.value))}
-                        className="control-input"
+                        className="w-20 px-3 py-1.5 bg-card border border-input rounded text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                     />
                 </label>
-                <label className="control-label">
-                    Offset:{" "}
+                
+                <label className="flex items-center gap-2 text-sm">
+                    <span className="text-foreground font-medium">Offset:</span>
                     <input
                         type="number"
                         value={offset}
                         onChange={(e) => setOffset(Number(e.target.value))}
-                        className="control-input"
+                        className="w-20 px-3 py-1.5 bg-card border border-input rounded text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                     />
                 </label>
-                <button
-                    onClick={fetchLogs}
-                    className="control-button reload-button"
-                >
-                    Reload Logs
-                </button>
-                <button
-                    onClick={handlePrevious}
-                    className="control-button nav-button"
-                    disabled={offset === 0}
-                >
-                    Previous
-                </button>
-                <button
-                    onClick={handleNext}
-                    className="control-button nav-button"
-                >
-                    Next
-                </button>
+                
+                <div className="flex gap-2 ml-auto">
+                    <button
+                        onClick={fetchLogs}
+                        className="px-4 py-1.5 bg-secondary text-secondary-foreground rounded font-medium text-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-ring"
+                    >
+                        Reload
+                    </button>
+                    
+                    <button
+                        onClick={handlePrevious}
+                        className="px-4 py-1.5 bg-primary text-primary-foreground rounded font-medium text-sm hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-ring"
+                        disabled={offset === 0}
+                    >
+                        Previous
+                    </button>
+                    
+                    <button
+                        onClick={handleNext}
+                        className="px-4 py-1.5 bg-primary text-primary-foreground rounded font-medium text-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-ring"
+                    >
+                        Next
+                    </button>
+                </div>
             </div>
 
-            <table className="log-table">
-                <thead className="table-header">
-                    <tr>
-                        <th>ID</th>
-                        <th>Timestamp</th>
-                        <th>IP</th>
-                        <th>Data</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {logs.map((log) => (
-                        <tr key={log.id} className="table-row">
-                            <td className="table-cell id-cell">{log.id}</td>
-                            <td className="table-cell timestamp-cell">
-                                {new Date(log.timestamp * 1000).toLocaleString()}
-                            </td>
-                            <td className="table-cell ip-cell">{log.ip}</td>
-                            <td className="table-cell data-cell">{log.data}</td>
+            {/* Table Section */}
+            <div className="overflow-x-auto">
+                <table className="w-full">
+                    <thead>
+                        <tr className="bg-muted/30 border-b border-border">
+                            <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                                ID
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                                Timestamp
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                                IP Address
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                                Data
+                            </th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody className="divide-y divide-border">
+                        {logs.length > 0 ? (
+                            logs.map((log) => (
+                                <tr key={log.id} className="hover:bg-muted/20 transition-colors">
+                                    <td className="px-6 py-4 text-sm font-mono text-foreground">
+                                        {log.id}
+                                    </td>
+                                    <td className="px-6 py-4 text-sm text-foreground">
+                                        {new Date(log.timestamp * 1000).toLocaleString()}
+                                    </td>
+                                    <td className="px-6 py-4 text-sm font-mono text-foreground">
+                                        {log.ip}
+                                    </td>
+                                    <td className="px-6 py-4 text-sm font-mono text-foreground max-w-md truncate">
+                                        {log.data}
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan={4} className="px-6 py-12 text-center text-muted-foreground">
+                                    No logs available
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }
